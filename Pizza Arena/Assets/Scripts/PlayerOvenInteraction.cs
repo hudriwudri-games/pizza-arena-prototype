@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class PlayerOvenInteraction : MonoBehaviour
 {
     [SerializeField]
-    Text pizzaText;
+    private Text pizzaText;
     [SerializeField]
-    Text ingredientText;
+    private Text ingredientText;
     private int id = -1;
     private Oven activeOven = null;
     private bool isEnter;
