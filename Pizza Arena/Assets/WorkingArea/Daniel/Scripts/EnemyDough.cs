@@ -4,27 +4,39 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyDough : Enemy
+public class EnemyDough : Enemy, Damageable
 {
     [SerializeField] List<Transform> players;
     [SerializeField] float minDistanceToPlayer;
     [SerializeField] float targetChangePeriod;
+    [SerializeField] float attackAreaDimensions;
+    [SerializeField] float attackDuration;
+    [SerializeField] int damageDealt;
+    [SerializeField] int startingHP;
+    [SerializeField] GameObject spawningItem;
+    [SerializeField] int minAmmountItems;
+    [SerializeField] int maxAmmountItems;
+    int hp;
     NavMeshAgent agent;
     Transform player;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        hp = startingHP;
         // TODO get players from Game manager instead of getting them from the serialized field
     }
 
     public void Start()
     {
         StartCoroutine(CheckForClosestPlayer());
+        StartCoroutine(AttackingRoutine());
     }
     private void Update()
     {
-        if (GetProyectedDistance(player.position, transform.position) > minDistanceToPlayer)
+        float distance = GetProyectedDistance(player.position, transform.position);
+        
+        if (distance > minDistanceToPlayer)
         {
             if (agent.isStopped)
                 agent.isStopped = false;
@@ -32,12 +44,16 @@ public class EnemyDough : Enemy
         }
         else
         {
+            agent.velocity = Vector3.zero;
             agent.isStopped = true;
         }
     }
-    public override void TakeDamage()
+
+    //Draw the BoxCast as a gizmo to show where it currently is testing. Click the Gizmos button to see this
+    void OnDrawGizmos()
     {
-        throw new System.NotImplementedException();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position + transform.forward * minDistanceToPlayer, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions));
     }
 
     private void SelectPlayerToFollow()
@@ -72,5 +88,58 @@ public class EnemyDough : Enemy
             SelectPlayerToFollow();
             yield return new WaitForSeconds(targetChangePeriod);
         }
+    }
+
+    void TryDamagingPlayers()
+    {
+        RaycastHit[] hits;
+        hits = Physics.BoxCastAll(transform.position + transform.forward * minDistanceToPlayer, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions), transform.forward);
+        foreach(RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                Damageable player = hit.collider.gameObject.GetComponent<Damageable>();
+                if (player != null)
+                {
+                    player.TakeDamage(damageDealt);
+                }
+                else
+                {
+                    Debug.LogError(hit.collider.gameObject.name + " doesn't have a Damageable component, add one or remove the Player tag");
+                }
+            }
+        }
+    }
+
+    public void TakeDamage(int damageAmmount)
+    {
+        hp -= damageAmmount;
+        if(hp < 0)
+        {
+            Despawn();
+        }
+    }
+
+    IEnumerator AttackingRoutine()
+    {
+        while (true)
+        {
+            if (agent.isStopped)
+            {
+                TryDamagingPlayers();
+                yield return new WaitForSeconds(attackDuration);
+            }
+            yield return null;
+        }
+    }
+
+    public void Despawn()
+    {
+        int spawnedItemsNumber = Random.Range(minAmmountItems, maxAmmountItems + 1);
+        for(int i = 0; i < spawnedItemsNumber; i++)
+        {
+            Instantiate(spawningItem,transform.position + new Vector3(Random.Range(0.0f, 1.0f), 0, Random.Range(0.0f, 1.0f)), Quaternion.identity);
+        }
+        Destroy(gameObject);
     }
 }

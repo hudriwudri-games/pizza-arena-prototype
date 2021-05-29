@@ -44,7 +44,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 200
   m_StoppingDistance: 0
@@ -67,8 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326297b6067f39a4aa3ec4af99ad813f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  players: []
   minDistanceToPlayer: 0
+  targetChangePeriod: 0
+  attackAreaDimensions: 0
+  attackDuration: 0
+  damageDealt: 0
 --- !u!1 &8601536198903973345
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8601536198903973345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.509, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2495014482525990947}
