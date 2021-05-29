@@ -1,19 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputTest : MonoBehaviour
 {
+    public void OnMove(InputAction.CallbackContext context)
+    {
+            Debug.Log(this.gameObject.name + ": Move " + context.ReadValue<Vector2>());
+    }
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            Debug.Log(this.gameObject.name + ": Attack");
+        }        
+    }
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Debug.Log(this.gameObject.name + ": AimState");
+        }
+        if (context.canceled)
+        {
+            Debug.Log(this.gameObject.name + ": AimState ended");
+        }
+    }
+    public void OnAimRotate(InputAction.CallbackContext context)
+    {
+            Debug.Log(this.gameObject.name + ": AimRotate " + context.ReadValue<Vector2>());
+
+    }
+    public void OnConfirm(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Debug.Log(this.gameObject.name + ": Confirm");
+        }
+    }
+    public void OnCancel(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Debug.Log(this.gameObject.name + ": Cancel");
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Attack"))
+      /*  if(Input.GetButtonDown("Attack"))
         {
             Debug.Log("Attack");
         }
@@ -56,6 +99,6 @@ public class InputTest : MonoBehaviour
         if (Input.GetAxis("AimVertical") > 0.1f || Input.GetAxis("AimVertical") < -0.1f)
         {
             Debug.Log("AimVertical" + Input.GetAxis("AimVertical"));
-        }
+        }*/
     }
 }
