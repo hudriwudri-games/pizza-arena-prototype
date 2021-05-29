@@ -6,11 +6,11 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyDough : Enemy, Damageable
 {
-    [SerializeField] List<Transform> players;
     [SerializeField] float minDistanceToPlayer;
     [SerializeField] float targetChangePeriod;
     [SerializeField] float attackAreaDimensions;
     [SerializeField] float attackDuration;
+    [SerializeField] float attackCoolDown;
     [SerializeField] int damageDealt;
     [SerializeField] int startingHP;
     [SerializeField] GameObject spawningItem;
@@ -19,16 +19,19 @@ public class EnemyDough : Enemy, Damageable
     int hp;
     NavMeshAgent agent;
     Transform player;
+    List<GameObject> players;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         hp = startingHP;
         // TODO get players from Game manager instead of getting them from the serialized field
+        players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }
 
     public void Start()
     {
+        base.Start();
         StartCoroutine(CheckForClosestPlayer());
         StartCoroutine(AttackingRoutine());
     }
@@ -38,8 +41,12 @@ public class EnemyDough : Enemy, Damageable
         
         if (distance > minDistanceToPlayer)
         {
+            if (GetState() != State.WALKINGTOWARDSPLAYER)
+                NotifyObservers(State.WALKINGTOWARDSPLAYER);
             if (agent.isStopped)
+            {
                 agent.isStopped = false;
+            }
             agent.SetDestination(player.position);
         }
         else
@@ -59,12 +66,12 @@ public class EnemyDough : Enemy, Damageable
     private void SelectPlayerToFollow()
     {
         float minDistance = 1000000;
-        foreach(Transform thisPlayer in players)
+        foreach(GameObject thisPlayer in players)
         {
-            float thisDistance = GetProyectedDistance(thisPlayer.position, transform.position);
+            float thisDistance = GetProyectedDistance(thisPlayer.transform.position, transform.position);
             if (thisDistance < minDistance)
             {
-                player = thisPlayer;
+                player = thisPlayer.transform;
                 minDistance = thisDistance;
             }
         }
@@ -114,9 +121,9 @@ public class EnemyDough : Enemy, Damageable
     public void TakeDamage(int damageAmmount)
     {
         hp -= damageAmmount;
-        if(hp < 0)
+        if(hp < 0 && GetState() != State.DYING)
         {
-            Despawn();
+            StartCoroutine(Despawn());
         }
     }
 
@@ -124,17 +131,22 @@ public class EnemyDough : Enemy, Damageable
     {
         while (true)
         {
-            if (agent.isStopped)
+            if (agent.isStopped && GetState() != State.DYING)
             {
+                NotifyObservers(State.ATTACKINGMELEE);
                 TryDamagingPlayers();
                 yield return new WaitForSeconds(attackDuration);
+                NotifyObservers(State.IDLE);
+                yield return new WaitForSeconds(attackCoolDown);
             }
             yield return null;
         }
     }
 
-    public void Despawn()
+    IEnumerator Despawn()
     {
+        NotifyObservers(State.DYING);
+        yield return new WaitForSeconds(2);
         int spawnedItemsNumber = Random.Range(minAmmountItems, maxAmmountItems + 1);
         for(int i = 0; i < spawnedItemsNumber; i++)
         {
