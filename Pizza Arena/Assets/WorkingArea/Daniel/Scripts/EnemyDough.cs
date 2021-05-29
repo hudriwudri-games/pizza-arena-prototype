@@ -12,12 +12,18 @@ public class EnemyDough : Enemy, Damageable
     [SerializeField] float attackAreaDimensions;
     [SerializeField] float attackDuration;
     [SerializeField] int damageDealt;
+    [SerializeField] int startingHP;
+    [SerializeField] GameObject spawningItem;
+    [SerializeField] int minAmmountItems;
+    [SerializeField] int maxAmmountItems;
+    int hp;
     NavMeshAgent agent;
     Transform player;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        hp = startingHP;
         // TODO get players from Game manager instead of getting them from the serialized field
     }
 
@@ -107,7 +113,11 @@ public class EnemyDough : Enemy, Damageable
 
     public void TakeDamage(int damageAmmount)
     {
-        throw new System.NotImplementedException();
+        hp -= damageAmmount;
+        if(hp < 0)
+        {
+            Despawn();
+        }
     }
 
     IEnumerator AttackingRoutine()
@@ -121,5 +131,15 @@ public class EnemyDough : Enemy, Damageable
             }
             yield return null;
         }
+    }
+
+    public void Despawn()
+    {
+        int spawnedItemsNumber = Random.Range(minAmmountItems, maxAmmountItems + 1);
+        for(int i = 0; i < spawnedItemsNumber; i++)
+        {
+            Instantiate(spawningItem,transform.position + new Vector3(Random.Range(0.0f, 1.0f), 0, Random.Range(0.0f, 1.0f)), Quaternion.identity);
+        }
+        Destroy(gameObject);
     }
 }
