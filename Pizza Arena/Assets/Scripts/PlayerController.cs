@@ -6,12 +6,15 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour, Damageable
 {
+    public GameObject projectile;
+    
     [SerializeField] int startingHealth;
     [SerializeField] float speed;
     // stats for melee attacks
     [SerializeField] float meleeAttackArea;
     [SerializeField] float meleeAttackRange;
     [SerializeField] int meeleAttackDamage;
+    [SerializeField] int ammunition;
 
     Rigidbody rb;
 
@@ -20,10 +23,11 @@ public class PlayerController : MonoBehaviour, Damageable
     Vector2 movementInput;
     Vector2 lookInput;
 
-
     // helper variables for smoother turning
     float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+
+    bool isAiming = false;
 
     void Awake()
     {
@@ -68,7 +72,7 @@ public class PlayerController : MonoBehaviour, Damageable
     void ShortRangeAttack()
     {
         RaycastHit[] hits;
-        hits = Physics.BoxCastAll(transform.position + transform.forward * meleeAttackRange, new Vector3(meleeAttackArea, meleeAttackArea, meleeAttackArea), transform.forward);
+        hits = Physics.BoxCastAll(transform.position + transform.forward * meleeAttackRange, new Vector3(meleeAttackArea, meleeAttackArea, meleeAttackArea), transform.forward, Quaternion.identity, 0);
         foreach (RaycastHit hit in hits)
         {
             if (hit.collider.gameObject.CompareTag("Enemy"))
@@ -91,6 +95,16 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position + transform.forward * meleeAttackRange, new Vector3(meleeAttackArea, meleeAttackArea, meleeAttackArea));
+    }
+
+    void LongRangeAttack()
+    {
+        if (ammunition > 0)
+        {
+            GameObject bullet = Instantiate(projectile, transform.position + transform.forward * meleeAttackRange, Quaternion.identity) as GameObject;
+            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
+            ammunition--;
+        }
     }
 
     /// <summary>
@@ -138,7 +152,27 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         if (context.started)
         {
-            ShortRangeAttack();
+            if (isAiming)
+            {
+                LongRangeAttack();
+            }
+            else
+            {
+                ShortRangeAttack();
+            }  
+        }
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            isAiming = true;
+        }
+
+        if (context.canceled)
+        {
+            isAiming = false;
         }
     }
 }
