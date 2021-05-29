@@ -103,8 +103,10 @@ public class EnemyDough : Enemy, Damageable
         hits = Physics.BoxCastAll(transform.position + transform.forward * minDistanceToPlayer + transform.up * attackAreaDimensions/2, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions), transform.forward, Quaternion.identity, 0);
         foreach(RaycastHit hit in hits)
         {
+            print(hit.collider.gameObject.tag);   
             if (hit.collider.gameObject.CompareTag("Player"))
             {
+                print("found");
                 Damageable player = hit.collider.gameObject.GetComponent<Damageable>();
                 if (player != null)
                 {
