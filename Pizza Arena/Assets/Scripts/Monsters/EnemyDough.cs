@@ -150,7 +150,7 @@ public class EnemyDough : Enemy, Damageable
         int spawnedItemsNumber = Random.Range(minAmmountItems, maxAmmountItems + 1);
         for(int i = 0; i < spawnedItemsNumber; i++)
         {
-            Instantiate(spawningItem,transform.position + new Vector3(Random.Range(0.0f, 1.0f), 0, Random.Range(0.0f, 1.0f)), Quaternion.identity);
+            GameObject newItem = Instantiate(spawningItem,transform.position + new Vector3(Random.Range(0.0f, 1.0f), 0, Random.Range(0.0f, 1.0f)), Quaternion.identity);
         }
         Destroy(gameObject);
     }
