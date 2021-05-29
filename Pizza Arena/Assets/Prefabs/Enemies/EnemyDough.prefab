@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326297b6067f39a4aa3ec4af99ad813f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToPlayer: 1
+  minDistanceToPlayer: 1.5
   targetChangePeriod: 2
   attackAreaDimensions: 1
   attackDuration: 1
