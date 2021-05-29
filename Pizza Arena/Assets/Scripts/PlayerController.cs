@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour, Damageable
     [SerializeField] float meleeAttackRange;
     [SerializeField] int meeleAttackDamage;
     [SerializeField] int ammunition;
+    [SerializeField] GameObject aimPreview;
 
     Rigidbody rb;
 
@@ -168,11 +169,13 @@ public class PlayerController : MonoBehaviour, Damageable
         if (context.started)
         {
             isAiming = true;
+            aimPreview.SetActive(true);
         }
 
         if (context.canceled)
         {
             isAiming = false;
+            aimPreview.SetActive(false);
         }
     }
 }
