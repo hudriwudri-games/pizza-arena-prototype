@@ -12,11 +12,10 @@ public class EnemyDough : Enemy, Damageable
     [SerializeField] float attackDuration;
     [SerializeField] float attackCoolDown;
     [SerializeField] int damageDealt;
-    [SerializeField] int startingHP;
     [SerializeField] GameObject spawningItem;
     [SerializeField] int minAmmountItems;
     [SerializeField] int maxAmmountItems;
-    int hp;
+    [SerializeField] MonsterData data;
     NavMeshAgent agent;
     Transform player;
     List<GameObject> players;
@@ -24,7 +23,6 @@ public class EnemyDough : Enemy, Damageable
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        hp = startingHP;
         // TODO get players from Game manager instead of getting them from the serialized field
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }
@@ -117,10 +115,10 @@ public class EnemyDough : Enemy, Damageable
         }
     }
 
-    public void TakeDamage(int damageAmmount)
+    public void TakeDamage(int damageAmount)
     {
-        hp -= damageAmmount;
-        if(hp < 0 && GetState() != State.DYING)
+        data.RemoveHealth(damageAmount);
+        if(data.GetHealth() <= 0 && GetState() != State.DYING)
         {
             StartCoroutine(Despawn());
         }
