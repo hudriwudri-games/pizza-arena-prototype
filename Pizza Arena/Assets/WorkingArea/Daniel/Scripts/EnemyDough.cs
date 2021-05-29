@@ -11,6 +11,7 @@ public class EnemyDough : Enemy, Damageable
     [SerializeField] float targetChangePeriod;
     [SerializeField] float attackAreaDimensions;
     [SerializeField] float attackDuration;
+    [SerializeField] float attackCoolDown;
     [SerializeField] int damageDealt;
     [SerializeField] int startingHP;
     [SerializeField] GameObject spawningItem;
@@ -29,6 +30,7 @@ public class EnemyDough : Enemy, Damageable
 
     public void Start()
     {
+        base.Start();
         StartCoroutine(CheckForClosestPlayer());
         StartCoroutine(AttackingRoutine());
     }
@@ -38,8 +40,12 @@ public class EnemyDough : Enemy, Damageable
         
         if (distance > minDistanceToPlayer)
         {
+            if (GetState() != State.WALKINGTOWARDSPLAYER)
+                NotifyObservers(State.WALKINGTOWARDSPLAYER);
             if (agent.isStopped)
+            {
                 agent.isStopped = false;
+            }
             agent.SetDestination(player.position);
         }
         else
@@ -114,9 +120,9 @@ public class EnemyDough : Enemy, Damageable
     public void TakeDamage(int damageAmmount)
     {
         hp -= damageAmmount;
-        if(hp < 0)
+        if(hp < 0 && GetState() != State.DYING)
         {
-            Despawn();
+            StartCoroutine(Despawn());
         }
     }
 
@@ -124,17 +130,22 @@ public class EnemyDough : Enemy, Damageable
     {
         while (true)
         {
-            if (agent.isStopped)
+            if (agent.isStopped && GetState() != State.DYING)
             {
+                NotifyObservers(State.ATTACKINGMELEE);
                 TryDamagingPlayers();
                 yield return new WaitForSeconds(attackDuration);
+                NotifyObservers(State.IDLE);
+                yield return new WaitForSeconds(attackCoolDown);
             }
             yield return null;
         }
     }
 
-    public void Despawn()
+    IEnumerator Despawn()
     {
+        NotifyObservers(State.DYING);
+        yield return new WaitForSeconds(2);
         int spawnedItemsNumber = Random.Range(minAmmountItems, maxAmmountItems + 1);
         for(int i = 0; i < spawnedItemsNumber; i++)
         {
