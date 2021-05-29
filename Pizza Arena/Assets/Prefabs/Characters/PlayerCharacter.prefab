@@ -26,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6339129227507072709}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6256401380888081307}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &244376927412831632
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -64,7 +64,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 0
   speed: 6
-  attackAreaDimensions: 0
+  meleeAttackArea: 1
+  meleeAttackRange: 2
+  meeleAttackDamage: 1
 --- !u!114 &4175318940070027264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +109,19 @@ MonoBehaviour:
     m_ActionId: 919dcd41-8188-4c17-bcc1-cae20ac21efe
     m_ActionName: Controls/Movement
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7275422663043698387}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 224ff734-19de-402c-88ef-fd810a3d2baa
     m_ActionName: Controls/Attack
   - m_PersistentCalls:
@@ -298,7 +312,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9070413521155434224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.47, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0.47, z: 0.434}
   m_LocalScale: {x: 0.52, y: 0.52, z: 0.52}
   m_Children: []
   m_Father: {fileID: 6256401380888081307}

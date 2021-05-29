@@ -8,7 +8,10 @@ public class PlayerController : MonoBehaviour, Damageable
 {
     [SerializeField] int startingHealth;
     [SerializeField] float speed;
-    [SerializeField] float attackAreaDimensions;
+    // stats for melee attacks
+    [SerializeField] float meleeAttackArea;
+    [SerializeField] float meleeAttackRange;
+    [SerializeField] int meeleAttackDamage;
 
     Rigidbody rb;
 
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour, Damageable
         // if there is input change, apply smoothing and rotate player to desired angle
         if (lookDirection.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(-lookDirection.x, -lookDirection.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(lookDirection.x, lookDirection.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
         }
@@ -58,6 +61,42 @@ public class PlayerController : MonoBehaviour, Damageable
         rb.velocity = moveDirection * stickAngle * speed;
     }
 
+    /// <summary>
+    /// Attack functions
+    /// </summary>
+
+    void ShortRangeAttack()
+    {
+        RaycastHit[] hits;
+        hits = Physics.BoxCastAll(transform.position + transform.forward * meleeAttackRange, new Vector3(meleeAttackArea, meleeAttackArea, meleeAttackArea), transform.forward);
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+            {
+                Damageable enemy = hit.collider.gameObject.GetComponent<Damageable>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(meeleAttackDamage);
+                }
+                else
+                {
+                    Debug.LogError(hit.collider.gameObject.name + " doesn't have a Damageable component, add one or remove the Enemy tag");
+                }
+            }
+        }
+    }
+
+    //Draw the BoxCast as a gizmo to show where it currently is testing. Click the Gizmos button to see this
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position + transform.forward * meleeAttackRange, new Vector3(meleeAttackArea, meleeAttackArea, meleeAttackArea));
+    }
+
+    /// <summary>
+    /// Health functions
+    /// </summary>
+
     public void TakeDamage(int damageAmmount)
     {
         healthPoints -= damageAmmount;
@@ -65,11 +104,6 @@ public class PlayerController : MonoBehaviour, Damageable
         {
             ResetPlayer();
         }
-    }
-
-    public int getHealth() 
-    {
-        return healthPoints;
     }
 
     public void ResetPlayer()
@@ -80,6 +114,11 @@ public class PlayerController : MonoBehaviour, Damageable
         transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
+    public int GetHealth()
+    {
+        return healthPoints;
+    }
+
     /// <summary>
     /// Input Functions
     /// </summary>
@@ -87,12 +126,19 @@ public class PlayerController : MonoBehaviour, Damageable
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("move son");
         movementInput = context.ReadValue<Vector2>();
     }
 
     public void OnAimRotate(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            ShortRangeAttack();
+        }
     }
 }
