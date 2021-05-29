@@ -60,7 +60,7 @@ public class EnemyDough : Enemy, Damageable
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position + transform.forward * minDistanceToPlayer, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions));
+        Gizmos.DrawWireCube(transform.position + transform.forward * minDistanceToPlayer + transform.up * attackAreaDimensions / 2, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions));
     }
 
     private void SelectPlayerToFollow()
@@ -100,7 +100,7 @@ public class EnemyDough : Enemy, Damageable
     void TryDamagingPlayers()
     {
         RaycastHit[] hits;
-        hits = Physics.BoxCastAll(transform.position + transform.forward * minDistanceToPlayer, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions), transform.forward);
+        hits = Physics.BoxCastAll(transform.position + transform.forward * minDistanceToPlayer + transform.up * attackAreaDimensions/2, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions), transform.forward, Quaternion.identity, 0);
         foreach(RaycastHit hit in hits)
         {
             if (hit.collider.gameObject.CompareTag("Player"))
