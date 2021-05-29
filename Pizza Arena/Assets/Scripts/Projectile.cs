@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.CompareTag("Enemy"))
         {
             Damageable enemy = other.gameObject.GetComponent<Damageable>();
             if (enemy != null)

@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerOvenInteraction : MonoBehaviour
 {
+    [SerializeField]
+    Text pizzaText;
+    [SerializeField]
+    Text ingredientText;
     private int id = -1;
     private Oven activeOven = null;
     private bool isEnter;
@@ -42,10 +47,13 @@ public class PlayerOvenInteraction : MonoBehaviour
                 ingredient -= activeOven.StartBaking(ingredient);
             }
         }
+        pizzaText.text = slices.ToString();
+        ingredientText.text = ingredient.ToString();
+
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "oven" || other.gameObject.name == "Oven (1)" || other.gameObject.name == "Oven")
+        if (other.gameObject.CompareTag("Oven"))
         {
             Oven oven = other.GetComponentInParent<Oven>();
             if (oven.IsPlayer(id))
@@ -57,7 +65,7 @@ public class PlayerOvenInteraction : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         Debug.Log(other.gameObject.name);
-        if (other.tag == "oven" || other.gameObject.name == "Oven (1)" || other.gameObject.name == "Oven")
+        if (other.gameObject.CompareTag("Oven"))
         {
                 activeOven = null;            
         }
