@@ -6,7 +6,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyDough : Enemy, Damageable
 {
-    [SerializeField] List<Transform> players;
     [SerializeField] float minDistanceToPlayer;
     [SerializeField] float targetChangePeriod;
     [SerializeField] float attackAreaDimensions;
@@ -20,12 +19,14 @@ public class EnemyDough : Enemy, Damageable
     int hp;
     NavMeshAgent agent;
     Transform player;
+    List<GameObject> players;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         hp = startingHP;
         // TODO get players from Game manager instead of getting them from the serialized field
+        players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }
 
     public void Start()
@@ -65,12 +66,12 @@ public class EnemyDough : Enemy, Damageable
     private void SelectPlayerToFollow()
     {
         float minDistance = 1000000;
-        foreach(Transform thisPlayer in players)
+        foreach(GameObject thisPlayer in players)
         {
-            float thisDistance = GetProyectedDistance(thisPlayer.position, transform.position);
+            float thisDistance = GetProyectedDistance(thisPlayer.transform.position, transform.position);
             if (thisDistance < minDistance)
             {
-                player = thisPlayer;
+                player = thisPlayer.transform;
                 minDistance = thisDistance;
             }
         }

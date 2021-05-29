@@ -44,7 +44,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: -2.56
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -197,17 +197,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326297b6067f39a4aa3ec4af99ad813f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
-  minDistanceToPlayer: 0
-  targetChangePeriod: 0
-  attackAreaDimensions: 0
-  attackDuration: 0
-  attackCoolDown: 0
-  damageDealt: 0
-  startingHP: 0
-  spawningItem: {fileID: 0}
-  minAmmountItems: 0
-  maxAmmountItems: 0
+  minDistanceToPlayer: 1
+  targetChangePeriod: 2
+  attackAreaDimensions: 1
+  attackDuration: 1
+  attackCoolDown: 2
+  damageDealt: 1
+  startingHP: 100
+  spawningItem: {fileID: 2350867122203756275, guid: c13d833b620248545b7a36807024154f, type: 3}
+  minAmmountItems: 2
+  maxAmmountItems: 5
 --- !u!114 &3096784284353074152
 MonoBehaviour:
   m_ObjectHideFlags: 0
