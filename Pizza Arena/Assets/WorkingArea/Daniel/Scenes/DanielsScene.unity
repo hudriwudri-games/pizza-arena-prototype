@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 835529395}
-  attackEnemy: 0
+  damage: 0
 --- !u!65 &234268802
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -539,7 +539,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071012319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.23, y: 0, z: -5.95}
+  m_LocalPosition: {x: -14.2, y: 0, z: -8.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2038319339}
@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 835529395}
-  attackEnemy: 0
+  damage: 0
 --- !u!65 &1168878346
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -679,7 +679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392451499}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.58, y: 0, z: 9.78}
+  m_LocalPosition: {x: 10.69, y: 0, z: 16.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2038319339}
@@ -701,7 +701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2038319339
 Transform:
   m_ObjectHideFlags: 0
@@ -846,7 +846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 835529395}
-  attackEnemy: 0
+  damage: 10
 --- !u!1001 &946991046095390756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -908,7 +908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4854537974587384948, guid: 86d6bfdd24e78cf40bd16d7c3fab844c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5062208426808941346, guid: 86d6bfdd24e78cf40bd16d7c3fab844c, type: 3}
       propertyPath: player
