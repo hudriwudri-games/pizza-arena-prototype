@@ -22,10 +22,13 @@ public class PlayerData : MonoBehaviour
 
     [SerializeField] bool continuallyUpdateHUD = false;
 
+    private int playerId;
+
     // Start is called before the first frame update
     void Start()
     {
         UpdateHUD();
+        // set id here
     }
 
     private void Update()

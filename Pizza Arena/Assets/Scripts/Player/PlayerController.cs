@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour, Damageable
         {
             GameObject bullet = Instantiate(projectile, transform.position + transform.forward * meleeAttackRange, Quaternion.identity) as GameObject;
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
+            // give bullet id
             data.RemovePizzaSlice(1);
         }
     }

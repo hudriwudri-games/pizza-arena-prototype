@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] int attackDamage;
     [SerializeField] float lifeTime;
+    private int playerId;
 
     float timer;
 
@@ -41,5 +42,15 @@ public class Projectile : MonoBehaviour
             }
         }
         Destroy(gameObject);
+    }
+
+    public void SetPlayerId(int id)
+    {
+        playerId = id;
+    }
+
+    public int GetPlayerId()
+    {
+        return playerId;
     }
 }
