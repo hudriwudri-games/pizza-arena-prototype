@@ -11,14 +11,13 @@ public class Oven : MonoBehaviour
     private int playerIndex;
 
     [SerializeField]
-    private Image timer;
+    private Timer timer;
 
 
     private float targetTime = 9.0f;
     private float burnTime = 1.0f;
     private float finishTime = 3.0f;
 
-    private float currTargetTime = -1.0f;
     bool activeBaking = false;
 
 
@@ -31,13 +30,7 @@ public class Oven : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currTargetTime > 0.0f)
-        {
-            currTargetTime -= Time.deltaTime;
-        }
 
-       
-        timer.fillAmount = 1 / targetTime * Mathf.Max(currTargetTime, 0);
     }
 
     public bool IsPlayer(int id)
@@ -50,7 +43,7 @@ public class Oven : MonoBehaviour
         if(ingredients >= 7)
         {
             activeBaking = true;
-            currTargetTime = targetTime;
+            timer.StartTimer(targetTime);
             return 7;
         }
         return 0;
@@ -63,25 +56,25 @@ public class Oven : MonoBehaviour
 
     public int TakePizza()
     {
-        if (currTargetTime <= finishTime && currTargetTime > burnTime && activeBaking)
+        if(timer.GetLeftTime() <= finishTime && timer.GetLeftTime() > burnTime && activeBaking)
         {
             StopTimer();
-            //take 8 pizza slices
+            //take 8 pizza slices (category 1)
             return 1;
         }
-        if (currTargetTime <= burnTime && activeBaking)
+        if (timer.GetLeftTime() <= burnTime && activeBaking)
         {
             StopTimer();
-            //take 8 burnt pizza slices
+            //take 8 burnt pizza slices (category 2)
             return 2;
         }
-        //get no pizza
+        //get no pizza (category 0
         return 0;
     }
 
     void StopTimer()
     {
         activeBaking = false;
-        currTargetTime = -1.0f;
+        timer.StopTimer();
     }
 }
