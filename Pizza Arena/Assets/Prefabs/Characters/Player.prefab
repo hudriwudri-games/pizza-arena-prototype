@@ -430,6 +430,7 @@ MonoBehaviour:
   slicesText: {fileID: 0}
   ingredientsText: {fileID: 0}
   healthBar: {fileID: 0}
+  renderer: {fileID: 1035744000940445091}
   health: 100
   maxHealth: 100
   slices: 15

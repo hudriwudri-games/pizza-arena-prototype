@@ -64,7 +64,8 @@ public class Customer : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(IsActive() && collision.gameObject.GetComponent<Projectile>().GetPlayerId() == currOrderPlayerId)
+        Debug.Log("xxx" + IsActive() + " " + collision.gameObject.GetComponent<Projectile>().GetPlayerId() + " " + currOrderPlayerId);
+        if (IsActive() && collision.gameObject.GetComponent<Projectile>().GetPlayerId() == currOrderPlayerId)
         {
             --currOrderSize;
             orderSizeText.text = currOrderSize.ToString();

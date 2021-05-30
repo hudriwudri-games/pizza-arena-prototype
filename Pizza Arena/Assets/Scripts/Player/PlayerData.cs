@@ -11,6 +11,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] Text slicesText;
     [SerializeField] Text ingredientsText;
     [SerializeField] Image healthBar;
+    [SerializeField] MeshRenderer renderer;
 
     [Header("Debugging")]
     [SerializeField] [Range(0, 100)] private int health = 100;
@@ -29,6 +30,15 @@ public class PlayerData : MonoBehaviour
     void Start()
     {
         playerId = gameObject.GetComponent<PlayerInput>().playerIndex;
+        print(playerId);
+        switch (playerId)
+        {
+            case 0: renderer.material.color = Color.red; break;
+            case 1: renderer.material.color = Color.blue; break;
+            case 2: renderer.material.color = Color.green; break;
+            case 3: renderer.material.color = Color.yellow; break;
+
+        }
         UpdateHUD();
     }
 
@@ -110,7 +120,6 @@ public class PlayerData : MonoBehaviour
     private void UpdateHUD()
     {
         healthBar.fillAmount = (float)1 / maxHealth * health;
-        Debug.Log(health);
         slicesText.text = slices.ToString();
         ingredientsText.text = ingredients.ToString();
         pointsText.text = points.ToString();
