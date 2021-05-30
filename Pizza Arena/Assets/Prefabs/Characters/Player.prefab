@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 9170241038314149233}
   - component: {fileID: 6686787432571737343}
   - component: {fileID: 9193899870576395863}
+  - component: {fileID: 5197668847520973952}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -265,6 +266,9 @@ MonoBehaviour:
   meleeAttackArea: 1
   meleeAttackRange: 1
   meeleAttackDamage: 1
+  meleeAttackDuration: 0.2
+  meleeAttackCooldown: 1
+  invincibilityCooldown: 0.1
   aimPreview: {fileID: 1911013620449066396}
   data: {fileID: 6686787432571737343}
 --- !u!114 &9170241038314149233
@@ -318,6 +322,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5197668847520973952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6339129227507072709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72aa2eb29ce1d44b9e1e7fe34e70709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer: {fileID: 6687329607128579765}
+  defaultMat: {fileID: 2100000, guid: e74d6e238adbc784ebecfce422407121, type: 2}
+  attackMat: {fileID: 2100000, guid: 425e75688ba7ee341afc5e6493d081d9, type: 2}
+  damageMat: {fileID: 2100000, guid: 3eaac6e489fb1eb4596bd67cba2a8168, type: 2}
 --- !u!1 &6456069680516657163
 GameObject:
   m_ObjectHideFlags: 0
