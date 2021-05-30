@@ -35,16 +35,24 @@ public class EnemyDough : Enemy, Damageable
     }
     private void Update()
     {
-        float distance = GetProyectedDistance(player.position, transform.position);
-        if (distance > minDistanceToPlayer)
+        if (GetState() != State.DYING)
         {
-            if (GetState() != State.WALKINGTOWARDSPLAYER)
-                NotifyObservers(State.WALKINGTOWARDSPLAYER);
-            if (agent.isStopped)
+            float distance = GetProyectedDistance(player.position, transform.position);
+            if (distance > minDistanceToPlayer)
             {
-                agent.isStopped = false;
+                if (GetState() != State.WALKINGTOWARDSPLAYER )
+                    NotifyObservers(State.WALKINGTOWARDSPLAYER);
+                if (agent.isStopped)
+                {
+                    agent.isStopped = false;
+                }
+                agent.SetDestination(player.position);
             }
-            agent.SetDestination(player.position);
+            else
+            {
+                agent.velocity = Vector3.zero;
+                agent.isStopped = true;
+            }
         }
         else
         {
@@ -88,7 +96,7 @@ public class EnemyDough : Enemy, Damageable
 
     IEnumerator CheckForClosestPlayer()
     {
-        while (true){
+        while (GetState() != State.DYING){
             SelectPlayerToFollow();
             yield return new WaitForSeconds(targetChangePeriod);
         }
@@ -126,9 +134,9 @@ public class EnemyDough : Enemy, Damageable
 
     IEnumerator AttackingRoutine()
     {
-        while (true)
+        while (GetState() != State.DYING)
         {
-            if (agent.isStopped && GetState() != State.DYING)
+            if (agent.isStopped)
             {
                 NotifyObservers(State.ATTACKINGMELEE);
                 TryDamagingPlayers();

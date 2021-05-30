@@ -13,11 +13,13 @@ public class PlayerController : MonoBehaviour, Damageable
     [SerializeField] float meleeAttackArea;
     [SerializeField] float meleeAttackRange;
     [SerializeField] int meeleAttackDamage;
+    [SerializeField] float meleeAttackDuration;
+    [SerializeField] float meleeAttackCooldown;
+    [SerializeField] float invincibilityCooldown;
     [SerializeField] GameObject aimPreview;
     [SerializeField] PlayerData data;
 
     Rigidbody rb;
-
 
     Vector2 movementInput;
     Vector2 lookInput;
@@ -26,12 +28,26 @@ public class PlayerController : MonoBehaviour, Damageable
     float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
+    bool canAttack = true;
+    bool invincible = false;
     bool isAiming = false;
 
+    // updating "animations" (colors)
+    List<PlayerObserver> observers;
+    State thisState = State.DEFAULT;
+
+    public enum State
+    {
+        DEFAULT,
+        MELEEATTACK,
+        COOLDOWN,
+        DAMAGED
+    }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        observers = new List<PlayerObserver>(GetComponents<PlayerObserver>());
     }
 
     void Update()
@@ -92,6 +108,21 @@ public class PlayerController : MonoBehaviour, Damageable
         Gizmos.DrawWireCube(transform.position + transform.forward * meleeAttackRange, new Vector3(meleeAttackArea, meleeAttackArea, meleeAttackArea));
     }
 
+    IEnumerator MeleeAttackRoutine()
+    {
+        while (true)
+        {
+            NotifyObservers(State.MELEEATTACK);
+            ShortRangeAttack();
+            yield return new WaitForSeconds(meleeAttackDuration);
+            NotifyObservers(State.COOLDOWN);
+            yield return new WaitForSeconds(meleeAttackCooldown);
+            NotifyObservers(State.DEFAULT);
+            canAttack = true;
+            yield break;
+        }
+    }
+
     void LongRangeAttack()
     {
         if (data.GetPizzaSliceAmount() > 0)
@@ -106,33 +137,65 @@ public class PlayerController : MonoBehaviour, Damageable
     /// Health functions
     /// </summary>
 
+    IEnumerator TakeDamageRoutine(int damageAmount)
+    {
+        while (true)
+        {
+            NotifyObservers(State.DAMAGED);
+            data.RemoveHealth(damageAmount);
+            if (data.GetHealth() <= 0)
+            {
+                data.ResetPlayer();
+                ResetPlayer();
+                yield break;
+            }
+            yield return new WaitForSeconds(invincibilityCooldown);
+            NotifyObservers(State.DEFAULT);
+            invincible = false;
+            yield break;
+        }
+    }
+
     public void TakeDamage(int damageAmount)
     {
-        data.RemoveHealth(damageAmount);
-        if(data.GetHealth()<=0)
+        if (invincible == false)
         {
-            data.ResetPlayer();
-            ResetPlayer();
+            invincible = true;
+            StartCoroutine(TakeDamageRoutine(damageAmount));
         }
     }
 
     public void ResetPlayer()
     {
         // TODO: loose Items - done?
+        NotifyObservers(State.DEFAULT);
         rb.velocity = Vector3.zero;
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
-    public int GetHealth()
+    /// <summary>
+    /// Update State
+    /// </summary>
+
+    protected void NotifyObservers(State newState)
     {
-        return data.GetHealth();
+        thisState = newState;
+        foreach (PlayerObserver thisObserver in observers)
+        {
+            thisObserver.Notify(this);
+        }
     }
 
+    public State GetState()
+    {
+        return thisState;
+    }
+
+    #region inputControl
     /// <summary>
     /// Input Functions
     /// </summary>
-    /// 
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -148,13 +211,14 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         if (context.started)
         {
-            if (isAiming)
+            if (!isAiming && canAttack)
+            {
+                canAttack = false;
+                StartCoroutine(MeleeAttackRoutine());
+            }
+            else if (isAiming)
             {
                 LongRangeAttack();
-            }
-            else
-            {
-                ShortRangeAttack();
             }  
         }
     }
@@ -173,4 +237,5 @@ public class PlayerController : MonoBehaviour, Damageable
             aimPreview.SetActive(false);
         }
     }
+#endregion
 }
