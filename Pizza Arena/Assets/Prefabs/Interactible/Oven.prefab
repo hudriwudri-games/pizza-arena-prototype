@@ -416,10 +416,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Timer
       objectReference: {fileID: 0}
-    - target: {fileID: 2428801749839424894, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
-      propertyPath: timeBar
-      value: 
-      objectReference: {fileID: 3901118180384048644}
+    - target: {fileID: 3151869850415275176, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.129
+      objectReference: {fileID: 0}
+    - target: {fileID: 8945008851626633722, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.377
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
 --- !u!224 &3454552608849259591 stripped
@@ -436,16 +440,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b8d4645f3ec66d4ebd70acb7f520e0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3901118180384048644 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1585887335219749655, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
-  m_PrefabInstance: {fileID: 2315336681916228883}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

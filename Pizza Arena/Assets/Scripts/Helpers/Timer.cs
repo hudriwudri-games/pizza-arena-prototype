@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField]
-    private Image timeBar = null;
-    [SerializeField]
-    private Text timeText = null;
+    [SerializeField] private Image timeBar = null;
+    [SerializeField] private Text timeText = null;
+    [SerializeField] private GameObject timer = null;
+
 
     private float time = -1.0f;
     private float targetTime = -1.0f;
@@ -16,7 +16,10 @@ public class Timer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(timer != null)
+        {
+            timer.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -26,10 +29,17 @@ public class Timer : MonoBehaviour
         {
             time -= Time.deltaTime;
         }
+        else
+        {
+            if (timer != null)
+            {
+                timer.SetActive(false);
+            }
+        }
 
         if(timeBar!= null)
         {
-            timeBar.fillAmount = (float)1 / targetTime * Mathf.Max(time, 0);
+            timeBar.fillAmount = 1-(float)1 / targetTime * Mathf.Max(time, 0);
         }
         if (timeText != null)
         {
@@ -43,7 +53,12 @@ public class Timer : MonoBehaviour
     public void StartTimer(float seconds)
     {
         time = seconds;
-        targetTime = seconds;
+        targetTime = seconds; 
+        if (timer != null)
+        {
+            timer.SetActive(true);
+        }
+
     }
     public void StopTimer()
     {

@@ -371,7 +371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1fb57805c694dba469de6a3d95bb7d91, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1944be60c09e63744962b741133a942f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -431,6 +431,7 @@ MonoBehaviour:
   timer: {fileID: 2179861758361461594}
   HUD: {fileID: 1431546618338753965}
   orderSizeText: {fileID: 1173280627161934610}
+  orderImage: {fileID: 5023813855325564358}
 --- !u!65 &1319746223643355144
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -509,7 +510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a3e51a7dbda84a64db732c6bdbb34980, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7dc45bd37782714458f98a29bf44a56b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -700,6 +701,14 @@ PrefabInstance:
     - target: {fileID: 1139607769986861399, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
       propertyPath: m_Name
       value: Timer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3151869850415275176, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
+      propertyPath: m_FillAmount
+      value: 0.377
+      objectReference: {fileID: 0}
+    - target: {fileID: 8945008851626633722, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e104eb4d9e2eb264d94fdec5ae4aabe3, type: 3}

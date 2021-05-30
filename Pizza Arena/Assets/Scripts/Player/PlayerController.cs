@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour, Damageable
             GameObject bullet = Instantiate(projectile, transform.position + transform.forward * meleeAttackRange, Quaternion.identity) as GameObject;
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
             // give bullet id
+            bullet.GetComponent<Projectile>().SetPlayerId(data.GetPlayerId());
             data.RemovePizzaSlice(1);
         }
     }
@@ -146,7 +147,6 @@ public class PlayerController : MonoBehaviour, Damageable
             data.RemoveHealth(damageAmount);
             if (data.GetHealth() <= 0)
             {
-                data.ResetPlayer();
                 ResetPlayer();
                 yield break;
             }
@@ -173,6 +173,8 @@ public class PlayerController : MonoBehaviour, Damageable
         rb.velocity = Vector3.zero;
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.Euler(Vector3.zero);
+        invincible = false;
+        data.ResetPlayer();
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerData : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class PlayerData : MonoBehaviour
     [Header("Debugging")]
     [SerializeField] [Range(0, 100)] private int health = 100;
     [SerializeField] [Range(0, 100)] private int maxHealth = 100;
-    [SerializeField] [Range(0,100)] private int slices = 15;
+    [SerializeField] [Range(0, 100)] private int slices = 15;
     [SerializeField] [Range(0, 100)] private int maxSlices = 99;
     [SerializeField] [Range(0, 100)] private int ingredients = 15;
     [SerializeField] [Range(0, 100)] private int maxIngredients = 99;
@@ -27,8 +28,8 @@ public class PlayerData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerId = gameObject.GetComponent<PlayerInput>().playerIndex;
         UpdateHUD();
-        // set id here
     }
 
     private void Update()
@@ -43,14 +44,14 @@ public class PlayerData : MonoBehaviour
     {
         health += value;
         health = Mathf.Min(health, maxHealth);
-        healthBar.fillAmount = 1 / maxHealth * health;
+        healthBar.fillAmount = (float)1 / maxHealth * health;
     }
 
     public void RemoveHealth(int value)
     {
         health -= value;
         health = Mathf.Max(health, 0);
-        healthBar.fillAmount = 1 / maxHealth * health;
+        healthBar.fillAmount = (float)1 / maxHealth * health;
     }
     public int GetHealth()
     {
@@ -103,13 +104,20 @@ public class PlayerData : MonoBehaviour
         health = 100;
         slices = 0;
         ingredients = 0;
+        UpdateHUD();
     }
 
     private void UpdateHUD()
     {
         healthBar.fillAmount = (float)1 / maxHealth * health;
+        Debug.Log(health);
         slicesText.text = slices.ToString();
         ingredientsText.text = ingredients.ToString();
         pointsText.text = points.ToString();
+    }
+
+    public int GetPlayerId()
+    {
+        return playerId;
     }
 }

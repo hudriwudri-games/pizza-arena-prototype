@@ -281,7 +281,7 @@ MonoBehaviour:
   attackAreaDimensions: 1
   attackDuration: 1
   attackCoolDown: 2
-  damageDealt: 1
+  damageDealt: 5
   spawningItem: {fileID: 2350867122203756275, guid: c13d833b620248545b7a36807024154f, type: 3}
   minAmmountItems: 2
   maxAmmountItems: 5
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
