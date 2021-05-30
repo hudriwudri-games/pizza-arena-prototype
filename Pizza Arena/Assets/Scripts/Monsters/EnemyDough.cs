@@ -12,11 +12,10 @@ public class EnemyDough : Enemy, Damageable
     [SerializeField] float attackDuration;
     [SerializeField] float attackCoolDown;
     [SerializeField] int damageDealt;
-    [SerializeField] int startingHP;
     [SerializeField] GameObject spawningItem;
     [SerializeField] int minAmmountItems;
     [SerializeField] int maxAmmountItems;
-    int hp;
+    [SerializeField] MonsterData data;
     NavMeshAgent agent;
     Transform player;
     List<GameObject> players;
@@ -24,7 +23,6 @@ public class EnemyDough : Enemy, Damageable
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        hp = startingHP;
         // TODO get players from Game manager instead of getting them from the serialized field
         players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }
@@ -37,22 +35,24 @@ public class EnemyDough : Enemy, Damageable
     }
     private void Update()
     {
-        float distance = GetProyectedDistance(player.position, transform.position);
-        
-        if (distance > minDistanceToPlayer)
+        if (GetState() != State.DYING)
         {
-            if (GetState() != State.WALKINGTOWARDSPLAYER)
-                NotifyObservers(State.WALKINGTOWARDSPLAYER);
-            if (agent.isStopped)
+            float distance = GetProyectedDistance(player.position, transform.position);
+            if (distance > minDistanceToPlayer)
             {
-                agent.isStopped = false;
+                if (GetState() != State.WALKINGTOWARDSPLAYER)
+                    NotifyObservers(State.WALKINGTOWARDSPLAYER);
+                if (agent.isStopped)
+                {
+                    agent.isStopped = false;
+                }
+                agent.SetDestination(player.position);
             }
-            agent.SetDestination(player.position);
-        }
-        else
-        {
-            agent.velocity = Vector3.zero;
-            agent.isStopped = true;
+            else
+            {
+                agent.velocity = Vector3.zero;
+                agent.isStopped = true;
+            }
         }
     }
 
@@ -60,7 +60,7 @@ public class EnemyDough : Enemy, Damageable
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position + transform.forward * minDistanceToPlayer, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions));
+        Gizmos.DrawWireCube(transform.position + transform.forward * minDistanceToPlayer + transform.up * attackAreaDimensions / 2, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions));
     }
 
     private void SelectPlayerToFollow()
@@ -100,9 +100,9 @@ public class EnemyDough : Enemy, Damageable
     void TryDamagingPlayers()
     {
         RaycastHit[] hits;
-        hits = Physics.BoxCastAll(transform.position + transform.forward * minDistanceToPlayer, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions), transform.forward);
+        hits = Physics.BoxCastAll(transform.position + transform.forward * minDistanceToPlayer + transform.up * attackAreaDimensions/2, new Vector3(attackAreaDimensions, attackAreaDimensions, attackAreaDimensions), transform.forward, Quaternion.identity, 0);
         foreach(RaycastHit hit in hits)
-        {
+        { 
             if (hit.collider.gameObject.CompareTag("Player"))
             {
                 Damageable player = hit.collider.gameObject.GetComponent<Damageable>();
@@ -118,10 +118,10 @@ public class EnemyDough : Enemy, Damageable
         }
     }
 
-    public void TakeDamage(int damageAmmount)
+    public void TakeDamage(int damageAmount)
     {
-        hp -= damageAmmount;
-        if(hp < 0 && GetState() != State.DYING)
+        data.RemoveHealth(damageAmount);
+        if(data.GetHealth() <= 0 && GetState() != State.DYING)
         {
             StartCoroutine(Despawn());
         }
@@ -150,7 +150,7 @@ public class EnemyDough : Enemy, Damageable
         int spawnedItemsNumber = Random.Range(minAmmountItems, maxAmmountItems + 1);
         for(int i = 0; i < spawnedItemsNumber; i++)
         {
-            Instantiate(spawningItem,transform.position + new Vector3(Random.Range(0.0f, 1.0f), 0, Random.Range(0.0f, 1.0f)), Quaternion.identity);
+            GameObject newItem = Instantiate(spawningItem,transform.position + new Vector3(Random.Range(0.0f, 1.0f), 0, Random.Range(0.0f, 1.0f)), Quaternion.identity);
         }
         Destroy(gameObject);
     }

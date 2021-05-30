@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerDummy : MonoBehaviour, Damageable
 {
     [SerializeField] GameObject enemy;
-    [SerializeField] bool attackEnemy;
+    [SerializeField] int damage;
     public void TakeDamage(int damageAmmount)
     {
         //print(gameObject.name + " took " + damageAmmount + " ammount of damage");
@@ -14,8 +14,7 @@ public class PlayerDummy : MonoBehaviour, Damageable
     {
         while (enemy != null)
         {
-            if(attackEnemy)
-                enemy.GetComponent<Damageable>().TakeDamage(10);
+            enemy.GetComponent<Damageable>().TakeDamage(damage);
             yield return new WaitForSeconds(1);
         }
     }

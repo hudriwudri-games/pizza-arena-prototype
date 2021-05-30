@@ -21,14 +21,14 @@ public class Projectile : MonoBehaviour
 
         if (timer >= lifeTime)
         {
-            Debug.Log("Dead");
+            //Debug.Log("Dead");
             Destroy(gameObject);
         }
     }
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.CompareTag("Enemy"))
         {
             Damageable enemy = other.gameObject.GetComponent<Damageable>();
             if (enemy != null)

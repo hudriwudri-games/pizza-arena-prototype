@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour, Damageable
+public class PlayerControllerOld : MonoBehaviour, Damageable
 {
     public GameObject projectile;
     
