@@ -21,7 +21,7 @@ public class DummyEnemy : MonoBehaviour, Damageable
     public void TakeDamage(int damageAmmount)
     {
         hp -= damageAmmount;
-        Debug.Log(hp);
+        //Debug.Log(hp);
         if (hp <= 0)
         {
             Despawn();

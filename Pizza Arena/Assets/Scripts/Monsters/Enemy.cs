@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
     protected void Start()
     {
         observers = new List<Observer>(GetComponents<Observer>());
-        print(observers.Count);
+        //print(observers.Count);
     }
     public enum State
     {

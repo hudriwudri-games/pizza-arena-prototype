@@ -34,12 +34,10 @@ public class PlayerOvenInteraction : MonoBehaviour
                if(activeOven.TakePizza() == 1)
                 {
                     data.AddPizzaSlice(8);
-                    Debug.Log("PIZZAS: " + data.GetPizzaSliceAmount());
                 };
             }
             else
             {
-                Debug.Log("START BAKING");
                 int lostIngredients = activeOven.StartBaking(data.GetIngredientsAmount());
                 data.RemoveIngredients(lostIngredients);
             }
@@ -59,7 +57,6 @@ public class PlayerOvenInteraction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.gameObject.CompareTag("Oven"))
         {
                 activeOven = null;            

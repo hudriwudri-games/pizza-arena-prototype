@@ -21,7 +21,7 @@ public class Projectile : MonoBehaviour
 
         if (timer >= lifeTime)
         {
-            Debug.Log("Dead");
+            //Debug.Log("Dead");
             Destroy(gameObject);
         }
     }

@@ -49,7 +49,6 @@ public class Oven : MonoBehaviour
     {
         if(ingredients >= 7)
         {
-            Debug.Log("Bake");
             activeBaking = true;
             currTargetTime = targetTime;
             return 7;
