@@ -51,6 +51,11 @@ public class Customer : MonoBehaviour
     {
         --currOrderSize;
 
+        if (currOrderSize <= 0)
+        {
+            timer.StopTimer();
+        }
+
         if (timer.GetLeftTime() < angryTime)
         {
             points += angryPoints;

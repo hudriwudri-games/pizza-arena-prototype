@@ -7,9 +7,9 @@ public class ItemHandler : MonoBehaviour
     [SerializeField] PlayerData data;
     [SerializeField] int ingredientCount;
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Pickup"))
+        if (other.gameObject.CompareTag("Item"))
         {
             data.AddIngredients(ingredientCount);
             Destroy(other.gameObject);

@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 1084471053195621143}
   - component: {fileID: -7877266460391506898}
   - component: {fileID: 8885846836336165261}
+  - component: {fileID: 4063544246082328884}
   m_Layer: 0
   m_Name: DoughItem
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,3 +128,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   impulseMagnitude: 3
   type: 0
+--- !u!135 &4063544246082328884
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2350867122203756275}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7
+  m_Center: {x: 0, y: 0, z: 0}
