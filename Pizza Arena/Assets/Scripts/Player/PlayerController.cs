@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour, Damageable
         // TODO: loose Items - done?
         NotifyObservers(State.DEFAULT);
         rb.velocity = Vector3.zero;
-        transform.position = Vector3.zero;
+        transform.position = new Vector3 (0.0f, 1.0f, 0.0f);
         transform.rotation = Quaternion.Euler(Vector3.zero);
         invincible = false;
         data.ResetPlayer();
