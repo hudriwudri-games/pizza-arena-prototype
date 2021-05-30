@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3183401921721161073}
   - component: {fileID: 9170241038314149233}
   - component: {fileID: 6686787432571737343}
+  - component: {fileID: 9193899870576395863}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -295,6 +296,28 @@ MonoBehaviour:
   slicesText: {fileID: 0}
   ingredientsText: {fileID: 0}
   healthBar: {fileID: 0}
+  health: 100
+  maxHealth: 100
+  slices: 15
+  maxSlices: 99
+  ingredients: 15
+  maxIngredients: 99
+  points: 0
+  continuallyUpdateHUD: 0
+--- !u!136 &9193899870576395863
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6339129227507072709}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6456069680516657163
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +362,6 @@ GameObject:
   - component: {fileID: 8147563278334837808}
   - component: {fileID: 781812671976335326}
   - component: {fileID: 6687329607128579765}
-  - component: {fileID: 447292889140473612}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Player
@@ -410,20 +432,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &447292889140473612
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7283486606958452219}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9070413521155434224
 GameObject:
   m_ObjectHideFlags: 0
