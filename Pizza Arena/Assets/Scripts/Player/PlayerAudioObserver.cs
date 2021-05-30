@@ -5,13 +5,16 @@ using UnityEngine;
 public class PlayerAudioObserver : PlayerObserver
 {
     [SerializeField] AudioSource source;
-    [SerializeField] AudioClip meleeAttackClip, damagedClip;
+    [SerializeField] AudioClip meleeAttackClip, longRangeAttackClip, damagedClip;
     public override void Notify(PlayerController sender)
     {
         switch (sender.GetState())
         {
             case PlayerController.State.MELEEATTACK:
                 PlayAudioClip(meleeAttackClip);
+                break;
+            case PlayerController.State.LONGRANGEATTACK:
+                PlayAudioClip(longRangeAttackClip);
                 break;
             case PlayerController.State.DAMAGED:
                 PlayAudioClip(damagedClip);

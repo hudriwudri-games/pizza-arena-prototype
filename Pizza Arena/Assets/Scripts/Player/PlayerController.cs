@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         DEFAULT,
         MELEEATTACK,
+        LONGRANGEATTACK,
         COOLDOWN,
         DAMAGED
     }
@@ -127,11 +128,13 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         if (data.GetPizzaSliceAmount() > 0)
         {
+            NotifyObservers(State.LONGRANGEATTACK);
             GameObject bullet = Instantiate(projectile, transform.position + transform.forward * meleeAttackRange, Quaternion.identity) as GameObject;
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
             // give bullet id
             bullet.GetComponent<Projectile>().SetPlayerId(data.GetPlayerId());
             data.RemovePizzaSlice(1);
+            NotifyObservers(State.DEFAULT);
         }
     }
 
