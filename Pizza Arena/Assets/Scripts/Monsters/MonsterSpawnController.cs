@@ -8,7 +8,7 @@ public class MonsterSpawnController : MonoBehaviour
     [SerializeField] GameObject monsterPrefab;
     [SerializeField] float minTimeToNextSpawn;
     [SerializeField] float maxTimeToNextSpawn;
-    [SerializeField] int maxAmmountOfMonstersPerSpawn;
+    [SerializeField] int maxAmountOfMonstersPerSpawn;
     bool spawning;
     void Start()
     {
@@ -22,7 +22,7 @@ public class MonsterSpawnController : MonoBehaviour
         {
             if (spawning)
             {
-                int numberOfSpawns = Random.Range(1, maxAmmountOfMonstersPerSpawn + 1);
+                int numberOfSpawns = Random.Range(1, maxAmountOfMonstersPerSpawn + 1);
                 for(int i = 0; i < numberOfSpawns; i++)
                 {
                     int spawnPointIndex = Random.Range(0, spawnPoints.Count);
