@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         DEFAULT,
         MELEEATTACK,
+        COOLDOWN,
         DAMAGED
     }
 
@@ -114,8 +115,9 @@ public class PlayerController : MonoBehaviour, Damageable
             NotifyObservers(State.MELEEATTACK);
             ShortRangeAttack();
             yield return new WaitForSeconds(meleeAttackDuration);
-            NotifyObservers(State.DEFAULT);
+            NotifyObservers(State.COOLDOWN);
             yield return new WaitForSeconds(meleeAttackCooldown);
+            NotifyObservers(State.DEFAULT);
             canAttack = true;
             yield break;
         }

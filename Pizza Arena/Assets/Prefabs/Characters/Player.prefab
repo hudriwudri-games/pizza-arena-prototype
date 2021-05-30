@@ -468,6 +468,7 @@ MonoBehaviour:
   defaultMat: {fileID: 2100000, guid: e74d6e238adbc784ebecfce422407121, type: 2}
   attackMat: {fileID: 2100000, guid: 425e75688ba7ee341afc5e6493d081d9, type: 2}
   damageMat: {fileID: 2100000, guid: 3eaac6e489fb1eb4596bd67cba2a8168, type: 2}
+  cooldownMat: {fileID: 2100000, guid: 196b3f1fa7ebe86419fd249f95e719ef, type: 2}
 --- !u!114 &4132119664609408697
 MonoBehaviour:
   m_ObjectHideFlags: 0
