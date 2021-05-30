@@ -23,6 +23,7 @@ public abstract class Enemy : MonoBehaviour
     protected void NotifyObservers(State newState)
     {
         thisState = newState;
+        print(thisState);
         foreach(Observer thisObserver in observers)
         {
             thisObserver.Notify(this);
