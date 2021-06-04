@@ -16,6 +16,7 @@ public abstract class Enemy : MonoBehaviour
     {
         IDLE,
         WALKINGTOWARDSPLAYER,
+        SEARCHINGPLAYER,
         ATTACKINGMELEE,
         DYING
     }

@@ -160,13 +160,15 @@ public class PlayerController : MonoBehaviour, Damageable
         }
     }
 
-    public void TakeDamage(int damageAmount)
+    public int TakeDamage(int damageAmount)
     {
+        int newHealth = data.GetHealth() - damageAmount;
         if (invincible == false)
         {
             invincible = true;
             StartCoroutine(TakeDamageRoutine(damageAmount));
         }
+        return newHealth;
     }
 
     public void ResetPlayer()

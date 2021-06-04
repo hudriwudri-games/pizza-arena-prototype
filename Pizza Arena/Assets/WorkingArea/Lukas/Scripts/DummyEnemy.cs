@@ -18,7 +18,7 @@ public class DummyEnemy : MonoBehaviour, Damageable
         
     }
 
-    public void TakeDamage(int damageAmmount)
+    public int TakeDamage(int damageAmmount)
     {
         hp -= damageAmmount;
         //Debug.Log(hp);
@@ -26,6 +26,7 @@ public class DummyEnemy : MonoBehaviour, Damageable
         {
             Despawn();
         }
+        return 10;
     }
 
     public void Despawn()

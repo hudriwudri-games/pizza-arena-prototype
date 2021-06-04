@@ -6,9 +6,10 @@ public class PlayerDummy : MonoBehaviour, Damageable
 {
     [SerializeField] GameObject enemy;
     [SerializeField] int damage;
-    public void TakeDamage(int damageAmmount)
+    public int TakeDamage(int damageAmmount)
     {
         //print(gameObject.name + " took " + damageAmmount + " ammount of damage");
+        return 10;
     }
     IEnumerator DamageEnemy()
     {

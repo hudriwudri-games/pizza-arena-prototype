@@ -123,13 +123,14 @@ public class EnemyDough : Enemy, Damageable
         }
     }
 
-    public void TakeDamage(int damageAmount)
+    public int TakeDamage(int damageAmount)
     {
         data.RemoveHealth(damageAmount);
         if(data.GetHealth() <= 0 && GetState() != State.DYING)
         {
             StartCoroutine(Despawn());
         }
+        return data.GetHealth();
     }
 
     IEnumerator AttackingRoutine()
@@ -141,6 +142,8 @@ public class EnemyDough : Enemy, Damageable
                 NotifyObservers(State.ATTACKINGMELEE);
                 TryDamagingPlayers();
                 yield return new WaitForSeconds(attackDuration);
+                if (GetState() == State.DYING)
+                    yield break;
                 NotifyObservers(State.IDLE);
                 yield return new WaitForSeconds(attackCoolDown);
             }
