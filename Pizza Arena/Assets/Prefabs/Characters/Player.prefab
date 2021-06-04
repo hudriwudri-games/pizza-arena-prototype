@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 5197668847520973952}
   - component: {fileID: 4132119664609408697}
   - component: {fileID: 5191743637906460610}
+  - component: {fileID: 7961783112082972746}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -498,7 +499,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source: {fileID: 3335093422677403257}
   meleeAttackClip: {fileID: 8300000, guid: 5cc448f4c8f076c4d8805b232b30953a, type: 3}
+  longRangeAttackClip: {fileID: 0}
   damagedClip: {fileID: 8300000, guid: bc38c022821ec4448afae343a38dd44b, type: 3}
+--- !u!208 &7961783112082972746
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6339129227507072709}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6456069680516657163
 GameObject:
   m_ObjectHideFlags: 0
