@@ -1,17 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class PlayerData : MonoBehaviour
 {
-    [Header("HUD")]
-    [SerializeField] Text pointsText;
-    [SerializeField] Text slicesText;
-    [SerializeField] Text ingredientsText;
-    [SerializeField] Image healthBar;
-    [SerializeField] MeshRenderer renderer;
+    [Header("PlayerData")]
+    [SerializeField] private GameObject HUD;
+    [SerializeField] private MeshRenderer renderer;
 
     [Header("Debugging")]
     [SerializeField] [Range(0, 100)] private int health = 100;
@@ -25,6 +20,10 @@ public class PlayerData : MonoBehaviour
     [SerializeField] bool continuallyUpdateHUD = false;
 
     private int playerId;
+    private Text pointsText;
+    private Text slicesText;
+    private Text ingredientsText;
+    private Image healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +38,11 @@ public class PlayerData : MonoBehaviour
             case 3: renderer.material.color = Color.yellow; break;
 
         }
+        pointsText =  HUD.transform.GetChild(playerId).GetChild(1).GetComponent<Text>();
+        slicesText = HUD.transform.GetChild(playerId).GetChild(6).GetComponent<Text>();
+        ingredientsText = HUD.transform.GetChild(playerId).GetChild(3).GetComponent<Text>();
+        healthBar = HUD.transform.GetChild(playerId).GetChild(4).GetChild(0).GetComponent<Image>();
+
         UpdateHUD();
     }
 

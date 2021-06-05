@@ -30,7 +30,10 @@ public class Oven : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(timer.GetLeftTime()<=0)
+        {
+            activeBaking = false;
+        }
     }
 
     public bool IsPlayer(int id)
@@ -68,7 +71,7 @@ public class Oven : MonoBehaviour
             //take 8 burnt pizza slices (category 2)
             return 2;
         }
-        //get no pizza (category 0
+        //get no pizza (category 0)
         return 0;
     }
 
