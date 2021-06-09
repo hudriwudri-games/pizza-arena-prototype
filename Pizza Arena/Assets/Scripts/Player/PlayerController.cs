@@ -16,10 +16,11 @@ public class PlayerController : MonoBehaviour, Damageable
     [SerializeField] float meleeAttackDuration;
     [SerializeField] float meleeAttackCooldown;
     [SerializeField] float invincibilityCooldown;
-    [SerializeField] GameObject aimPreview;
+    [SerializeField] float aimAngle = 45;
     [SerializeField] PlayerData data;
 
     Rigidbody rb;
+    DrawTrajectory aimPreview;
 
     Vector2 movementInput;
     Vector2 lookInput;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         rb = GetComponent<Rigidbody>();
         observers = new List<PlayerObserver>(GetComponents<PlayerObserver>());
+        aimPreview = GetComponent<DrawTrajectory>();
     }
 
     void Update()
@@ -62,6 +64,11 @@ public class PlayerController : MonoBehaviour, Damageable
             float targetAngle = Mathf.Atan2(lookDirection.x, lookDirection.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
+
+        if (isAiming)
+        {
+            aimPreview.DrawLineTrajectory((Quaternion.AngleAxis(-aimAngle, transform.right) * transform.forward) * CalcShootingForce(1), transform.position + transform.forward * meleeAttackRange);
         }
     }
 
@@ -124,18 +131,26 @@ public class PlayerController : MonoBehaviour, Damageable
         }
     }
 
-    void LongRangeAttack()
+    void StartProjectile(float shotForce) 
     {
         if (data.GetPizzaSliceAmount() > 0)
         {
             NotifyObservers(State.LONGRANGEATTACK);
+            // Spawn Bullet
             GameObject bullet = Instantiate(projectile, transform.position + transform.forward * meleeAttackRange, Quaternion.identity) as GameObject;
-            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
-            // give bullet id
+            // Apply Force at given angle
+            bullet.GetComponent<Rigidbody>().AddForce((Quaternion.AngleAxis(-aimAngle, transform.right) * transform.forward) * CalcShootingForce(shotForce));
+            // give bullet id of player (needed for point calc)
             bullet.GetComponent<Projectile>().SetPlayerId(data.GetPlayerId());
             data.RemovePizzaSlice(1);
             NotifyObservers(State.DEFAULT);
         }
+    }
+
+    private float CalcShootingForce(float shotForce) 
+    {
+        float range = shotForce * data.GetMaxShootingForce();
+        return range;
     }
 
     /// <summary>
@@ -226,7 +241,7 @@ public class PlayerController : MonoBehaviour, Damageable
             }
             else if (isAiming)
             {
-                LongRangeAttack();
+                StartProjectile(1);
             }  
         }
     }
@@ -236,13 +251,12 @@ public class PlayerController : MonoBehaviour, Damageable
         if (context.started)
         {
             isAiming = true;
-            aimPreview.SetActive(true);
         }
 
         if (context.canceled)
         {
             isAiming = false;
-            aimPreview.SetActive(false);
+            aimPreview.HideLine();
         }
     }
 #endregion

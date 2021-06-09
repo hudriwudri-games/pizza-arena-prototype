@@ -16,6 +16,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] [Range(0, 100)] private int ingredients = 15;
     [SerializeField] [Range(0, 100)] private int maxIngredients = 99;
     [SerializeField] [Range(0, 100)] private int points = 0;
+    [SerializeField] [Range(0, 1000)] private int maxShootingForce = 0;
 
     [SerializeField] bool continuallyUpdateHUD = false;
 
@@ -132,5 +133,10 @@ public class PlayerData : MonoBehaviour
     public int GetPlayerId()
     {
         return playerId;
+    }
+
+    public int GetMaxShootingForce()
+    {
+        return maxShootingForce;
     }
 }
