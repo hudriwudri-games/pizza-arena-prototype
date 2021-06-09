@@ -50,6 +50,7 @@ public class EnemyDough : Enemy, Damageable
             }
             else
             {
+                StartCoroutine(PointHere(player, 0.5f));
                 agent.velocity = Vector3.zero;
                 agent.isStopped = true;
             }
@@ -59,6 +60,20 @@ public class EnemyDough : Enemy, Damageable
             agent.velocity = Vector3.zero;
             agent.isStopped = true;
         }
+    }
+
+    IEnumerator PointHere(Transform target, float time)
+    {
+        Vector3 finalDirection = (target.position - transform.position).normalized;
+        finalDirection.y = 0;
+        Vector3 startingDirection = transform.forward;
+        float deltaTime = time / 50f;
+        for(float t = 0; t <= time; t += deltaTime)
+        {
+            transform.forward = Vector3.Lerp(startingDirection, finalDirection, t);
+            yield return null;
+        }
+
     }
 
     //Draw the BoxCast as a gizmo to show where it currently is testing. Click the Gizmos button to see this

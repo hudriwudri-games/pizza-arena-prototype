@@ -427,10 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3595488886db34eba788a125faa00f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsText: {fileID: 0}
-  slicesText: {fileID: 0}
-  ingredientsText: {fileID: 0}
-  healthBar: {fileID: 0}
+  HUD: {fileID: 0}
   renderer: {fileID: 1035744000940445091}
   health: 100
   maxHealth: 100
