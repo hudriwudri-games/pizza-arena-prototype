@@ -30,11 +30,24 @@ public class ScoreScreenManager : MonoBehaviour
     {
         scoreText1.text = playerData[0].GetPoints().ToString();
         scoreText2.text = playerData[1].GetPoints().ToString();
-        if(playerData[0].GetPoints()>playerData[1].GetPoints())
+        winner1.SetActive(false);
+        winner2.SetActive(false);
+        PlayerData p2, p1;
+        if(playerData[0].GetPlayerId() == 0)
+        {
+            p1 = playerData[1];
+            p2 = playerData[0];
+        }
+        else
+        {
+            p1 = playerData[0];
+            p2 = playerData[1];
+        }
+        if (p1.GetPoints() > p2.GetPoints())
         {
             winner1.SetActive(true);
         }
-        else if (playerData[0].GetPoints() > playerData[1].GetPoints())
+        else if (p1.GetPoints() < p2.GetPoints())
         {
             winner2.SetActive(true);
         }
@@ -44,6 +57,7 @@ public class ScoreScreenManager : MonoBehaviour
             winner2.SetActive(true);
         }
         scoreScreen.SetActive(true);
+
     }
 
     public void Hide()

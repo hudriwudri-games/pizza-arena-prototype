@@ -21,9 +21,12 @@ public class PlayerController : MonoBehaviour, Damageable
 
     Rigidbody rb;
     DrawTrajectory aimPreview;
+    Vector3 lookDirection;
 
     Vector2 movementInput;
     Vector2 lookInput;
+
+    float shootLength;
 
     // helper variables for smoother turning
     float turnSmoothTime = 0.1f;
@@ -56,7 +59,7 @@ public class PlayerController : MonoBehaviour, Damageable
     void Update()
     {
         // get direction the player looks in
-        Vector3 lookDirection = new Vector3(lookInput.x, 0f, lookInput.y).normalized;
+        lookDirection = new Vector3(lookInput.x, 0f, lookInput.y).normalized;
 
         // if there is input change, apply smoothing and rotate player to desired angle
         if (lookDirection.magnitude >= 0.1f)
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour, Damageable
 
         if (isAiming)
         {
-            aimPreview.DrawLineTrajectory((Quaternion.AngleAxis(-aimAngle, transform.right) * transform.forward) * CalcShootingForce(1), transform.position + transform.forward * meleeAttackRange);
+            aimPreview.DrawLineTrajectory((Quaternion.AngleAxis(-aimAngle, transform.right) * transform.forward) * CalcShootingForce(shootLength), transform.position + transform.forward * meleeAttackRange);
         }
     }
 
@@ -81,7 +84,8 @@ public class PlayerController : MonoBehaviour, Damageable
         // (to change speed depending on how much the stick is tilted)
         float stickAngle = Mathf.Sqrt(movementInput.x * movementInput.x + movementInput.y * movementInput.y);
 
-        rb.velocity = moveDirection * stickAngle * speed;
+        //rb.velocity = moveDirection * stickAngle * speed;
+        rb.AddForce(speed * stickAngle * moveDirection);
     }
 
     /// <summary>
@@ -104,6 +108,15 @@ public class PlayerController : MonoBehaviour, Damageable
                 else
                 {
                     Debug.LogError(hit.collider.gameObject.name + " doesn't have a Damageable component, add one or remove the Enemy tag");
+                }
+            }
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                if (hit.collider.gameObject != gameObject)
+                {
+                    Rigidbody otherPlayer = hit.collider.gameObject.GetComponent<Rigidbody>();
+                    Vector3 pushDirection = transform.forward;
+                    otherPlayer.AddForce(pushDirection * 50, ForceMode.Impulse);
                 }
             }
         }
@@ -149,7 +162,7 @@ public class PlayerController : MonoBehaviour, Damageable
 
     private float CalcShootingForce(float shotForce) 
     {
-        float range = shotForce * data.GetMaxShootingForce();
+        float range = Mathf.Lerp(data.GetMinShootingForce(), data.GetMaxShootingForce(), shotForce);
         return range;
     }
 
@@ -228,6 +241,7 @@ public class PlayerController : MonoBehaviour, Damageable
     public void OnAimRotate(InputAction.CallbackContext context)
     {
         lookInput = context.ReadValue<Vector2>();
+        shootLength = context.ReadValue<Vector2>().magnitude;
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -241,7 +255,7 @@ public class PlayerController : MonoBehaviour, Damageable
             }
             else if (isAiming)
             {
-                StartProjectile(1);
+                StartProjectile(shootLength);
             }  
         }
     }

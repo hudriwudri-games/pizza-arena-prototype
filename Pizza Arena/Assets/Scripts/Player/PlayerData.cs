@@ -11,12 +11,13 @@ public class PlayerData : MonoBehaviour
     [Header("Debugging")]
     [SerializeField] [Range(0, 100)] private int health = 100;
     [SerializeField] [Range(0, 100)] private int maxHealth = 100;
-    [SerializeField] [Range(0, 100)] private int slices = 15;
+    [SerializeField] [Range(0, 100)] private int slices = 0;
     [SerializeField] [Range(0, 100)] private int maxSlices = 99;
-    [SerializeField] [Range(0, 100)] private int ingredients = 15;
+    [SerializeField] [Range(0, 100)] private int ingredients = 0;
     [SerializeField] [Range(0, 100)] private int maxIngredients = 99;
     [SerializeField] [Range(0, 100)] private int points = 0;
     [SerializeField] [Range(0, 1000)] private int maxShootingForce = 0;
+    [SerializeField] [Range(0, 1000)] private int minShootingForce = 0;
 
     [SerializeField] bool continuallyUpdateHUD = false;
 
@@ -30,7 +31,6 @@ public class PlayerData : MonoBehaviour
     void Start()
     {
         playerId = gameObject.GetComponent<PlayerInput>().playerIndex;
-        print(playerId);
         switch (playerId)
         {
             case 0: renderer.material.color = Color.red; break;
@@ -138,5 +138,10 @@ public class PlayerData : MonoBehaviour
     public int GetMaxShootingForce()
     {
         return maxShootingForce;
+    }
+
+    public int GetMinShootingForce()
+    {
+        return minShootingForce;
     }
 }

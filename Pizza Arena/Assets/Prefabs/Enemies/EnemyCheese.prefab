@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 6410459699500954901}
   - component: {fileID: 576302545601365243}
   - component: {fileID: 319182623762967023}
-  - component: {fileID: 6896421944683610142}
+  - component: {fileID: 5082721614275370675}
   m_Layer: 0
   m_Name: EnemyCheese
   m_TagString: Enemy
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdea5cad375af47a8754dc704af8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToPlayer: 1.5
+  minDistanceToPlayer: 2
   targetChangePeriod: 2
   attackAreaDimensions: 2
   attackDuration: 1
@@ -284,8 +284,8 @@ MonoBehaviour:
   damageDealt: 20
   perceptionDistance: 5
   spawningItem: {fileID: 2350867122203756275, guid: c13d833b620248545b7a36807024154f, type: 3}
-  minAmmountItems: 1
-  maxAmmountItems: 2
+  minAmmountItems: 4
+  maxAmmountItems: 6
   data: {fileID: 319182623762967023}
 --- !u!114 &6410459699500954901
 MonoBehaviour:
@@ -336,8 +336,8 @@ MonoBehaviour:
   health: 20
   startHealth: 20
   continuallyUpdateHUD: 0
---- !u!65 &6896421944683610142
-BoxCollider:
+--- !u!135 &5082721614275370675
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -347,8 +347,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Radius: 1.1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &5298423937600112241
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +360,6 @@ GameObject:
   - component: {fileID: 7292332122366124063}
   - component: {fileID: 4539150588453135241}
   - component: {fileID: 6845584434115770466}
-  - component: {fileID: 3976809738469033831}
   m_Layer: 0
   m_Name: Geometry
   m_TagString: Untagged
@@ -431,19 +430,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3976809738469033831
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5298423937600112241}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5392019181940909307
 GameObject:
   m_ObjectHideFlags: 0

@@ -283,8 +283,8 @@ MonoBehaviour:
   attackCoolDown: 2
   damageDealt: 5
   spawningItem: {fileID: 2350867122203756275, guid: c13d833b620248545b7a36807024154f, type: 3}
-  minAmmountItems: 2
-  maxAmmountItems: 5
+  minAmmountItems: 1
+  maxAmmountItems: 2
   data: {fileID: 319182623762967023}
 --- !u!114 &3096784284353074152
 MonoBehaviour:
