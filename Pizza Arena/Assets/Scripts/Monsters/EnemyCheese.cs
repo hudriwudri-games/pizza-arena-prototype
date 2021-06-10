@@ -113,11 +113,10 @@ public class EnemyCheese : Enemy, Damageable
             if (agent.isStopped)
             {
                 NotifyObservers(State.ATTACKINGMELEE);
-                TryDamagingPlayers();
                 yield return new WaitForSeconds(attackDuration);
                 if (GetState() == State.DYING || GetState() == State.SEARCHINGPLAYER)
                     yield break;
-                
+                TryDamagingPlayers();
                 NotifyObservers(State.IDLE);
                 yield return new WaitForSeconds(attackCoolDown);
                 
@@ -183,11 +182,15 @@ public class EnemyCheese : Enemy, Damageable
                     if (distance > minDistanceToPlayer)
                     {
                         // if the player is still reachable follow the player
-                        if (agent.isStopped)
+                        if(GetState() != State.ATTACKINGMELEE)
                         {
-                            agent.isStopped = false;
+                            if (agent.isStopped)
+                            {
+                                agent.isStopped = false;
+                            }
+                            agent.SetDestination(player.position);
                         }
-                        agent.SetDestination(player.position);
+                        
                     }
                     else
                     {
