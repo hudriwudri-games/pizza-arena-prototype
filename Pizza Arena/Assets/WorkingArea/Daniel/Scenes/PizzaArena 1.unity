@@ -492,6 +492,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerShootVariants
       objectReference: {fileID: 0}
+    - target: {fileID: 6339129227507072709, guid: 76f97629db7872f41ac33c39a2273353, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6686787432571737343, guid: 76f97629db7872f41ac33c39a2273353, type: 3}
       propertyPath: HUD
       value: 
@@ -872,7 +876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6339129227507072709, guid: 89485beb4f072e74a99dad0a5b60e61f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6686787432571737343, guid: 89485beb4f072e74a99dad0a5b60e61f, type: 3}
       propertyPath: HUD
@@ -1665,6 +1669,10 @@ PrefabInstance:
     - target: {fileID: 6339129227507072709, guid: 76f97629db7872f41ac33c39a2273353, type: 3}
       propertyPath: m_Name
       value: PlayerShootVariants (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339129227507072709, guid: 76f97629db7872f41ac33c39a2273353, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6686787432571737343, guid: 76f97629db7872f41ac33c39a2273353, type: 3}
       propertyPath: HUD
@@ -3220,7 +3228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6339129227507072709, guid: 89485beb4f072e74a99dad0a5b60e61f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6686787432571737343, guid: 89485beb4f072e74a99dad0a5b60e61f, type: 3}
       propertyPath: HUD
