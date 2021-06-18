@@ -506,6 +506,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1444670f-e937-4b4b-98d8-92d5b54166bf
     m_ActionName: Controls/Cancel
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3183401921721161073}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnBlock
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4f4fcf7f-ebe2-4194-abdd-b6d4d011bffe
+    m_ActionName: Controls/Block[/DualShock4GamepadHID/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3183401921721161073}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnDodge
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 793119f2-ffa2-4fcf-a8fa-9613321e018b
+    m_ActionName: Controls/Dodge[/DualShock4GamepadHID/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Controller
   m_DefaultActionMap: Controls
@@ -533,6 +565,8 @@ MonoBehaviour:
   invincibilityCooldown: 0.1
   aimAngle: 60
   data: {fileID: 6686787432571737343}
+  isBlocking: 0
+  holdToBlock: 0
 --- !u!114 &9170241038314149233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +603,8 @@ MonoBehaviour:
   points: 0
   maxShootingForce: 400
   minShootingForce: 200
+  pushForce: 50
+  dodgeForce: 30
   continuallyUpdateHUD: 0
 --- !u!136 &9193899870576395863
 CapsuleCollider:
@@ -601,6 +637,7 @@ MonoBehaviour:
   attackMat: {fileID: 2100000, guid: 425e75688ba7ee341afc5e6493d081d9, type: 2}
   damageMat: {fileID: 2100000, guid: 3eaac6e489fb1eb4596bd67cba2a8168, type: 2}
   cooldownMat: {fileID: 2100000, guid: 196b3f1fa7ebe86419fd249f95e719ef, type: 2}
+  blockingMat: {fileID: 2100000, guid: 5e02dcb0bd1f59f49bd27f5fa298565d, type: 2}
 --- !u!114 &4132119664609408697
 MonoBehaviour:
   m_ObjectHideFlags: 0

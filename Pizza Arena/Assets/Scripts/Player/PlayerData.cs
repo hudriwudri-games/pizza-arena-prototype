@@ -18,6 +18,8 @@ public class PlayerData : MonoBehaviour
     [SerializeField] [Range(0, 100)] private int points = 0;
     [SerializeField] [Range(0, 1000)] private int maxShootingForce = 0;
     [SerializeField] [Range(0, 1000)] private int minShootingForce = 0;
+    [SerializeField] [Range(0, 50)] private float pushForce = 50;
+    [SerializeField] [Range(0, 50)] private float dodgeForce = 20;
 
     [SerializeField] bool continuallyUpdateHUD = false;
 
@@ -143,5 +145,15 @@ public class PlayerData : MonoBehaviour
     public int GetMinShootingForce()
     {
         return minShootingForce;
+    }
+
+    public float GetPushForce()
+    {
+        return pushForce;
+    }
+
+    public float GetDodgeForce()
+    {
+        return dodgeForce;
     }
 }

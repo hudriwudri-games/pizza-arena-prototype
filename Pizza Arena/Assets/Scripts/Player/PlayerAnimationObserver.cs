@@ -6,7 +6,7 @@ public class PlayerAnimationObserver : PlayerObserver
 {
     [SerializeField] Renderer renderer;
     // JUST FOR TESTING
-    [SerializeField] Material defaultMat, attackMat, damageMat, cooldownMat;
+    [SerializeField] Material defaultMat, attackMat, damageMat, cooldownMat, blockingMat;
 
     public override void Notify(PlayerController sender)
     {
@@ -23,6 +23,9 @@ public class PlayerAnimationObserver : PlayerObserver
                 break;
             case PlayerController.State.DAMAGED:
                 renderer.material = damageMat;
+                break;
+            case PlayerController.State.BLOCKING:
+                renderer.material = blockingMat;
                 break;
         }
     }

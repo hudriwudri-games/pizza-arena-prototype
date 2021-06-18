@@ -35,6 +35,12 @@ public class PlayerController : MonoBehaviour, Damageable
     bool canAttack = true;
     bool invincible = false;
     bool isAiming = false;
+    bool isBlocking = false;
+    bool canBlock = true;
+
+    // just for testing 
+    [Header("Testing")]
+    public bool holdToBlock = true;
 
     // updating "animations" (colors)
     List<PlayerObserver> observers;
@@ -46,7 +52,8 @@ public class PlayerController : MonoBehaviour, Damageable
         MELEEATTACK,
         LONGRANGEATTACK,
         COOLDOWN,
-        DAMAGED
+        DAMAGED,
+        BLOCKING
     }
 
     void Start()
@@ -114,9 +121,12 @@ public class PlayerController : MonoBehaviour, Damageable
             {
                 if (hit.collider.gameObject != gameObject)
                 {
-                    Rigidbody otherPlayer = hit.collider.gameObject.GetComponent<Rigidbody>();
-                    Vector3 pushDirection = transform.forward;
-                    otherPlayer.AddForce(pushDirection * 50, ForceMode.Impulse);
+                    if (!hit.collider.gameObject.GetComponent<PlayerController>().isBlocking)
+                    {
+                        Rigidbody otherPlayer = hit.collider.gameObject.GetComponent<Rigidbody>();
+                        Vector3 pushDirection = transform.forward;
+                        otherPlayer.AddForce(pushDirection * data.GetPushForce(), ForceMode.Impulse);
+                    }
                 }
             }
         }
@@ -166,6 +176,29 @@ public class PlayerController : MonoBehaviour, Damageable
         return range;
     }
 
+    private void Dodge()
+    {
+        Vector3 moveDirection = new Vector3(movementInput.x, 0f, movementInput.y).normalized;
+        rb.AddForce(moveDirection * data.GetDodgeForce(), ForceMode.Impulse);
+    }
+
+    public bool IsBlocking()
+    {
+        return isBlocking;
+    }
+
+    IEnumerator BlockFast()
+    {
+        canBlock = false;
+        isBlocking = true;
+        NotifyObservers(State.BLOCKING);
+        yield return new WaitForSeconds(1);
+        isBlocking = false;
+        NotifyObservers(State.DEFAULT);
+        yield return new WaitForSeconds(1);
+        canBlock = true;
+    }
+
     /// <summary>
     /// Health functions
     /// </summary>
@@ -191,7 +224,7 @@ public class PlayerController : MonoBehaviour, Damageable
     public int TakeDamage(int damageAmount)
     {
         int newHealth = data.GetHealth() - damageAmount;
-        if (invincible == false)
+        if (invincible == false && isBlocking == false)
         {
             invincible = true;
             StartCoroutine(TakeDamageRoutine(damageAmount));
@@ -248,7 +281,7 @@ public class PlayerController : MonoBehaviour, Damageable
     {
         if (context.started)
         {
-            if (!isAiming && canAttack)
+            if (!isAiming && canAttack && !isBlocking)
             {
                 canAttack = false;
                 StartCoroutine(MeleeAttackRoutine());
@@ -257,6 +290,38 @@ public class PlayerController : MonoBehaviour, Damageable
             {
                 StartProjectile(shootLength);
             }  
+        }
+    }
+
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Dodge();
+        }
+    }
+
+    public void OnBlock(InputAction.CallbackContext context)
+    {
+        if (holdToBlock)
+        {
+            if (context.started)
+            {
+                isBlocking = true;
+                NotifyObservers(State.BLOCKING);
+            }
+            if (context.canceled)
+            {
+                isBlocking = false;
+                NotifyObservers(State.DEFAULT);
+            }
+        }
+        else
+        {
+            if (canBlock)
+            {
+                StartCoroutine(BlockFast());
+            }
         }
     }
 
