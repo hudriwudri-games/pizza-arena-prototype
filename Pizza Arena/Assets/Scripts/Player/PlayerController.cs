@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour, Damageable
     public GameObject projectile;
     
     [SerializeField] float speed;
+    [SerializeField] float blockSpeedMultiplier = 0.1f;
     // stats for melee attacks
     [SerializeField] float meleeAttackArea;
     [SerializeField] float meleeAttackRange;
@@ -41,6 +42,8 @@ public class PlayerController : MonoBehaviour, Damageable
     // just for testing 
     [Header("Testing")]
     public bool holdToBlock = true;
+    public bool toggleDashOnOff = true;
+    public bool toggleBlockOnOff = true;
 
     // updating "animations" (colors)
     List<PlayerObserver> observers;
@@ -92,7 +95,14 @@ public class PlayerController : MonoBehaviour, Damageable
         float stickAngle = Mathf.Sqrt(movementInput.x * movementInput.x + movementInput.y * movementInput.y);
 
         //rb.velocity = moveDirection * stickAngle * speed;
-        rb.AddForce(speed * stickAngle * moveDirection);
+        if (isBlocking && holdToBlock)
+        {
+            rb.AddForce(speed * stickAngle * moveDirection * blockSpeedMultiplier);
+        }
+        else 
+        {
+            rb.AddForce(speed * stickAngle * moveDirection);
+        }  
     }
 
     /// <summary>
@@ -295,7 +305,7 @@ public class PlayerController : MonoBehaviour, Damageable
 
     public void OnDodge(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && toggleDashOnOff)
         {
             Dodge();
         }
@@ -303,24 +313,27 @@ public class PlayerController : MonoBehaviour, Damageable
 
     public void OnBlock(InputAction.CallbackContext context)
     {
-        if (holdToBlock)
+        if (toggleBlockOnOff)
         {
-            if (context.started)
+            if (holdToBlock)
             {
-                isBlocking = true;
-                NotifyObservers(State.BLOCKING);
+                if (context.started)
+                {
+                    isBlocking = true;
+                    NotifyObservers(State.BLOCKING);
+                }
+                if (context.canceled)
+                {
+                    isBlocking = false;
+                    NotifyObservers(State.DEFAULT);
+                }
             }
-            if (context.canceled)
+            else
             {
-                isBlocking = false;
-                NotifyObservers(State.DEFAULT);
-            }
-        }
-        else
-        {
-            if (canBlock)
-            {
-                StartCoroutine(BlockFast());
+                if (canBlock)
+                {
+                    StartCoroutine(BlockFast());
+                }
             }
         }
     }
